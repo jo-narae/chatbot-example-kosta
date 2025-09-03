@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/Users/devpeng/Documents/GitHub/Kosta-chatbot/.venv/bin/python /Users/devpeng/Documents/GitHub/Kosta-chatbot/221.chatbot-with-langchain/01.langchain.py)",
+      "Bash(/Users/devpeng/Documents/GitHub/Kosta-chatbot/.venv/bin/python /Users/devpeng/Documents/GitHub/Kosta-chatbot/221.chatbot-with-langchain/langchain_message_history_gemini.py)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
