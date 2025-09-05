@@ -22,7 +22,9 @@
       "Bash(/Users/devpeng/Documents/GitHub/Kosta-chatbot/.venv/bin/python retrieve.py)",
       "Bash(grep:*)",
       "Bash(/Users/devpeng/Documents/GitHub/Kosta-chatbot/.venv/bin/python test_search_only.py)",
-      "Bash(/Users/devpeng/Documents/GitHub/Kosta-chatbot/.venv/bin/python:*)"
+      "Bash(/Users/devpeng/Documents/GitHub/Kosta-chatbot/.venv/bin/python:*)",
+      "Bash(find:*)",
+      "Bash(mv:*)"
     ],
     "deny": [],
     "ask": []
