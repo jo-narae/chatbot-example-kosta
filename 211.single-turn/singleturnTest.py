@@ -31,24 +31,27 @@ system_instruction = (
 # -----------------------------
 # 4) 싱글턴 호출
 # -----------------------------
-# 사용자 입력을 한 번 받고, 그 입력을 바로 모델에 전달합니다.
-user_input = input("사용자: ")
+# 사용자 입력을 반복적으로 받고, 그 입력을 모델에 전달합니다.
+while True:
+    user_input = input("사용자: ")
+    if user_input.lower() == "exit":
+        break
 
-# 모델 호출
-response = client.models.generate_content(
-    model="gemini-2.0-flash",     # 사용할 Gemini 모델
-    contents=user_input,          # 사용자 입력 프롬프트
-    config=types.GenerateContentConfig(
-        system_instruction=system_instruction,   # 시스템 지시어 반영
-        temperature=0.9,                         # 창의성/가변성 조절 (0=일관, 1=창의적)
-        thinking_config=types.ThinkingConfig(
-            thinking_budget=0                    # Thinking 모드 비활성화 (옵션)
-        )
-    ),
-)
+    # 모델 호출
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",     # 사용할 Gemini 모델
+        contents=user_input,          # 사용자 입력 프롬프트
+        config=types.GenerateContentConfig(
+            system_instruction=system_instruction,   # 시스템 지시어 반영
+            temperature=0.9,                         # 창의성/가변성 조절 (0=일관, 1=창의적)
+            thinking_config=types.ThinkingConfig(
+                thinking_budget=0                    # Thinking 모드 비활성화 (옵션)
+            )
+        ),
+    )
 
-# -----------------------------
-# 5) 응답 출력
-# -----------------------------
-# 모델이 생성한 답변을 출력합니다.
-print("AI:", response.text)
+    # -----------------------------
+    # 5) 응답 출력
+    # -----------------------------
+    # 모델이 생성한 답변을 출력합니다.
+    print("AI:", response.text)
