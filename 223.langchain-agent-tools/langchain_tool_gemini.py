@@ -5,7 +5,6 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.tools import tool
 from datetime import datetime
 import pytz
-import google.generativeai as genai
 
 # -----------------------------
 # 1) 환경설정
@@ -14,7 +13,6 @@ load_dotenv()
 api_key = os.getenv("GOOGLE_API_KEY")
 if not api_key:
     raise ValueError("환경변수 GOOGLE_API_KEY가 설정되지 않았습니다.")
-genai.configure(api_key=api_key)
 
 # -----------------------------
 # 2) Gemini 모델 초기화
