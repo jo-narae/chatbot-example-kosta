@@ -56,7 +56,7 @@ def chunk_documents(documents: List[Document]) -> List[Document]:
 
 ## 4: Document를 벡터DB로 저장
 def save_to_vector_store(documents: List[Document]) -> None:
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
     vector_store = FAISS.from_documents(documents, embedding=embeddings)
     vector_store.save_local("faiss_index")
 
@@ -70,7 +70,7 @@ def save_to_vector_store(documents: List[Document]) -> None:
 def process_question(user_question):
 
 
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
     
     ## 벡터 DB 호출
     new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
@@ -173,12 +173,12 @@ def main():
             # st.text(context)
             st.text(response)
 
-            for document in context:
+            for idx, document in enumerate(context):
                 with st.expander("관련 문서"):
                     st.text(document.page_content)
                     file_path = document.metadata.get('source', '')
                     page_number = document.metadata.get('page', 0) + 1
-                    button_key = f"link_{file_path}_{page_number}"
+                    button_key = f"link_{file_path}_{page_number}_{idx}"
                     reference_button = st.button(f"🔍 {os.path.basename(file_path)} pg.{page_number}", key=button_key)
                     
                     if reference_button:
