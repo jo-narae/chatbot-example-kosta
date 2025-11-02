@@ -50,7 +50,7 @@ def chunk_documents(documents: List[Document]) -> List[Document]:
 
 ## 4: Document를 벡터DB로 저장
 def save_to_vector_store(documents: List[Document]) -> None:
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
     vector_store = FAISS.from_documents(documents, embedding=embeddings)
     vector_store.save_local("faiss_index")
 
@@ -62,7 +62,7 @@ def save_to_vector_store(documents: List[Document]) -> None:
 @st.cache_data
 def process_question(user_question):
 
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
     
     ## 벡터 DB 호출
     new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
@@ -95,7 +95,7 @@ def get_rag_chain() -> Runnable:
     응답:"""
 
     custom_rag_prompt = PromptTemplate.from_template(template)
-    model = ChatGoogleGenerativeAI(model="gemini-pro")
+    model = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
 
     return custom_rag_prompt | model | StrOutputParser()
 
