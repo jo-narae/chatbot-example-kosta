@@ -24,7 +24,10 @@
       "Bash(/Users/devpeng/Documents/GitHub/Kosta-chatbot/.venv/bin/python test_search_only.py)",
       "Bash(/Users/devpeng/Documents/GitHub/Kosta-chatbot/.venv/bin/python:*)",
       "Bash(find:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Bash(dir:*)",
+      "Bash(nul)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []

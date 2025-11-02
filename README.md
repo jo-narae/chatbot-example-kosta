@@ -4,6 +4,21 @@
 
 Gemini API부터 LangChain, RAG까지 단계적으로 배우는 실습 중심 챗봇 개발 가이드
 
+> **⚠️ 중요:** VSCode 최신 버전에서 Jupyter Notebook 호환 문제로 인해, 모든 예제를 Python 스크립트(.py) 방식으로 제공합니다.
+
+## 🎯 빠른 시작
+
+### ✨ 새로운 워크샵 스크립트 (권장)
+체계적으로 정리된 단계별 스크립트:
+```bash
+cd workshop-scripts
+```
+👉 [워크샵 스크립트 바로 시작하기](workshop-scripts/QUICK_START.md)
+
+### 📂 기존 폴더 구조
+원본 예제 파일들 (211.single-turn, 221.chatbot-with-langchain 등):
+👉 [상세 실행 가이드](EXECUTION_GUIDE.md)
+
 ## 📋 목차
 
 1. [프로젝트 개요](#-프로젝트-개요)
@@ -51,31 +66,30 @@ source .venv/bin/activate  # macOS/Linux
 # .venv\Scripts\activate   # Windows
 ```
 
-#### 기본 패키지 설치
+#### 패키지 설치 (uv 사용 권장)
 ```bash
-# 환경 변수 관리
-uv pip install python-dotenv
+# 모든 의존성 자동 설치
+uv sync
 
-# Gemini API SDK
-uv pip install google-generativeai
-
-# 웹 인터페이스
-uv pip install streamlit
-
-# 노트북 환경
-uv pip install jupyter jupyterlab
+# 또는 개별 패키지 설치
+uv add python-dotenv
+uv add google-generativeai
+uv add streamlit
+uv add langchain langchain-google-genai
+uv add langchain-chroma chromadb pandas
+uv add langsmith  # 선택사항
 ```
 
-#### LangChain 및 RAG 관련 패키지
+#### 또는 pip 사용
 ```bash
-# LangChain 생태계
-uv pip install langchain langchain-google-genai
+# requirements.txt로 일괄 설치
+pip install -r requirements.txt
 
-# RAG 시스템용
-uv pip install langchain-chroma chromadb pandas
-
-# 추적 및 모니터링 (선택사항)
-uv pip install langsmith
+# 또는 개별 설치
+pip install python-dotenv google-generativeai
+pip install streamlit
+pip install langchain langchain-google-genai
+pip install langchain-chroma chromadb pandas
 ```
 
 ### 3. 환경변수 설정
@@ -365,44 +379,67 @@ python build_vector_db.py
 python retrieve_final.py  # 권장 버전
 ```
 
-### Jupyter 노트북 실행
+### Python 스크립트 실행 (권장)
 
 ```bash
-# Jupyter Lab 실행
-jupyter lab
+# uv run 사용 (권장)
+uv run python <script_name>.py
 
-# 또는 UV 환경에서
-uv run jupyter lab
-
-# 브라우저에서 .ipynb 파일 열기
+# 또는 가상환경 활성화 후 실행
+source .venv/bin/activate  # macOS/Linux
+.venv\Scripts\activate     # Windows
+python <script_name>.py
 ```
 
 ### 전체 워크샵 순서대로 실행
 
 ```bash
 # 1. 환경 확인
-python 000.settings/01.test.py
+uv run python 000.settings/01.test.py
 
-# 2. 기본 챗봇 (10분씩)
-python 211.single-turn/01.single-turn.py
-python 212.multi-turn/01.multi-turn.py
+# 2. 기본 챗봇 (각 10분)
+uv run python 211.single-turn/01.single-turn.py
+uv run python 212.multi-turn/01.multi-turn.py
 
-# 3. 프롬프트 엔지니어링 (각 10분씩)
-python 213.zero-shot\ Prompting/01.zero-shot.py
-python 214.one-shot\ Prompting/01.one-shot.py
-python 215.few-shot\ Prompting/01.few-shot.py
+# 3. 프롬프트 엔지니어링 (각 10분)
+uv run python 213.zero-shot-prompting/01.zero-shot.py
+uv run python 214.one-shot-prompting/01.one-shot.py
+uv run python 215.few-shot-prompting/01.few-shot.py
 
 # 4. 웹 인터페이스
-streamlit run 216.streamlit/01.streamlit.py
+uv run streamlit run 216.streamlit/01.streamlit.py
 
 # 5. LangChain 기본
-python 221.chatbot-with-langchain/01.langchain.py
+uv run python 221.chatbot-with-langchain/01.langchain.py
+uv run python 221.chatbot-with-langchain/langchain_message_history_gemini.py
 
-# 6. RAG 시스템 (순서대로)
+# 6. LCEL 체인
+uv run python 222.lcel-chain/01.lcel_basic.py
+uv run python 222.lcel-chain/lcel_gemini.py
+
+# 7. 도구와 에이전트
+uv run python 223.langchain-agent-tools/01.tool_basic.py
+uv run python 223.langchain-agent-tools/langchain_tool_gemini.py
+
+# 8. 스트리밍
+uv run python 224.stream-output/01.stream_basic.py
+
+# 9. RAG 시스템 (순서대로)
 cd 231.rag-chatbot/
-python fix_encoding.py
-python build_vector_db.py
-python retrieve_final.py
+uv run python fix_encoding.py
+uv run python build_vector_db.py
+uv run python retrieve_final.py
+```
+
+### Jupyter 노트북 사용 (선택사항)
+
+> **참고:** VSCode에서 노트북 호환 문제가 있을 수 있습니다. Python 스크립트 사용을 권장합니다.
+
+```bash
+# Jupyter Lab 실행
+uv run jupyter lab
+
+# 브라우저에서 .ipynb 파일 열기
 ```
 
 ## ❗ 문제 해결
