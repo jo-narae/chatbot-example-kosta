@@ -1,9 +1,4 @@
-"""
-Few-Shot 프롬프팅 - 예시 여러 개로 패턴 학습
-
-예시를 여러 개 주면 AI가 패턴을 더 정확하게 파악합니다.
-특히 긍정/부정/중립 각각의 예시를 보여주면 분류 정확도가 올라갑니다.
-"""
+"""Few-Shot 프롬프팅 - 예시 여러 개로 패턴 학습"""
 
 import os
 from dotenv import load_dotenv
@@ -27,12 +22,6 @@ def ask(prompt):
     )
     return response.choices[0].message.content
 
-
-# ── Few-Shot: 긍정/부정/중립 예시를 각각 보여줌 ──
-print("=" * 50)
-print("Few-Shot: 예시 3개로 리뷰 감정 분석")
-print("=" * 50)
-print()
 
 # 긍정/부정/중립 각 1개씩 = 총 3개 예시
 prompt_template = """다음 상품 리뷰의 감정을 분석해줘.
@@ -68,18 +57,4 @@ for review in reviews:
     result = ask(prompt_template.format(review=review))
     print(f"[리뷰] {review}")
     print(f"[분석]\n{result}")
-    print("-" * 40)
-
-print()
-print("=" * 50)
-print("04 → 05 → 06 비교 정리")
-print("=" * 50)
-print()
-print("Zero-Shot (예시 0개): 형식이 제각각, AI가 자유롭게 해석")
-print("One-Shot  (예시 1개): 형식을 따라하지만 가끔 흔들림")
-print("Few-Shot  (예시 3개): 형식도 안정적, 분류 정확도도 높음")
-print()
-print("정리:")
-print("  예시가 많을수록 → 형식이 안정적 + 정확도 향상")
-print("  하지만 예시가 너무 많으면 → 토큰 비용 증가 + 느려짐")
-print("  실무에서는 2~5개 예시가 적절합니다!")
+    print()

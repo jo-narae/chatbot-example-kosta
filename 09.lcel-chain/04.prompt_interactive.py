@@ -1,9 +1,4 @@
-"""
-프롬프트 템플릿 활용 - 사용자 입력으로 체인 실행
-
-03에서 만든 템플릿에 직접 입력을 넣어서 실행해봅니다.
-역할, 질문, 출력 형식을 바꿔가며 템플릿의 유연함을 체험합니다.
-"""
+"""프롬프트 템플릿 활용 - 사용자 입력으로 체인 실행"""
 
 import os
 from dotenv import load_dotenv
@@ -18,12 +13,8 @@ if not os.environ.get("OPENAI_API_KEY"):
 
 llm = ChatOpenAI(model="gpt-4.1-nano", temperature=0.7)
 
-# ══════════════════════════════════════════════════
-# 1. 간단한 주제 입력 → 설명 생성
-# ══════════════════════════════════════════════════
-print("=" * 50)
-print("1. 주제를 입력하면 설명을 생성합니다")
-print("=" * 50)
+# 1. 주제 입력 → 설명 생성
+print("[1] 주제를 입력하면 설명을 생성합니다")
 
 explain_chain = (
     ChatPromptTemplate.from_template(
@@ -38,13 +29,8 @@ if topic:
     result = explain_chain.invoke({"topic": topic})
     print(f"\n[{topic} 설명]\n{result}")
 
-# ══════════════════════════════════════════════════
 # 2. 역할 + 질문을 동시에 입력
-# ══════════════════════════════════════════════════
-print()
-print("=" * 50)
-print("2. 역할과 질문을 직접 입력합니다")
-print("=" * 50)
+print(f"\n[2] 역할과 질문을 직접 입력합니다")
 
 role_chain = (
     ChatPromptTemplate.from_messages([
@@ -63,19 +49,13 @@ if role and question:
     result = role_chain.invoke({"role": role, "question": question})
     print(f"\n[{role}의 답변]\n{result}")
 
-# ══════════════════════════════════════════════════
-# 3. 자유 대화 - 역할을 유지하며 계속 질문
-# ══════════════════════════════════════════════════
-print()
-print("=" * 50)
-print("3. 역할을 고정하고 계속 질문하기")
-print("=" * 50)
-
+# 3. 역할을 고정하고 계속 질문
+print(f"\n[3] 역할을 고정하고 계속 질문하기")
 print("역할 예시: 요리사, 의사, 변호사, 여행 가이드, 개발자")
 fixed_role = input("고정할 역할: ").strip()
 
 if fixed_role:
-    print(f"\n[{fixed_role}]에게 질문하세요! (종료: exit)")
+    print(f"[{fixed_role}]에게 질문하세요! (종료: exit)")
 
     while True:
         try:
@@ -92,14 +72,3 @@ if fixed_role:
 
         result = role_chain.invoke({"role": fixed_role, "question": q})
         print(f"[{fixed_role}] {result}")
-
-print()
-print("=" * 50)
-print("핵심 정리")
-print("=" * 50)
-print("템플릿의 {변수}에 사용자 입력을 넣으면")
-print("같은 체인으로 무한히 다양한 결과를 만들 수 있습니다!")
-print()
-print("  템플릿 = 고정된 틀")
-print("  변수 = 사용자가 채우는 부분")
-print("  체인 = 틀 + AI를 연결한 파이프라인")

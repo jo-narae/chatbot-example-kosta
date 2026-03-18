@@ -1,9 +1,4 @@
-"""
-Zero-Shot 프롬프팅 - 예시 없이 지시만으로
-
-예시를 하나도 주지 않고, 지시만으로 AI에게 작업을 시킵니다.
-→ AI가 알아서 해석하기 때문에 형식이 들쭉날쭉할 수 있습니다.
-"""
+"""Zero-Shot 프롬프팅 - 예시 없이 지시만으로 감정 분석"""
 
 import os
 from dotenv import load_dotenv
@@ -28,12 +23,7 @@ def ask(prompt):
     return response.choices[0].message.content
 
 
-# ── Zero-Shot: 예시 없이 바로 지시 ──
-print("=" * 50)
-print("Zero-Shot: 예시 없이 리뷰 감정 분석")
-print("=" * 50)
-print()
-
+# Zero-Shot: 예시 없이 바로 지시
 reviews = [
     "배송도 빠르고 품질도 좋아요! 재구매 의사 있습니다.",
     "사이즈가 안 맞아서 교환했는데 교환도 느리고 불친절해요.",
@@ -46,14 +36,4 @@ for review in reviews:
     )
     print(f"[리뷰] {review}")
     print(f"[분석] {result}")
-    print("-" * 40)
-
-print()
-print("=" * 50)
-print("관찰 포인트")
-print("=" * 50)
-print("- 분석 결과의 '형식'이 일정한가요?")
-print("- 어떤 건 길고, 어떤 건 짧고, 형식이 제각각일 수 있습니다")
-print("- 예시를 주지 않았기 때문에 AI가 자유롭게 해석합니다")
-print()
-print("→ 형식을 통일하고 싶다면? 05.one-shot을 확인하세요!")
+    print()

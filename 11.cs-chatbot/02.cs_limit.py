@@ -1,11 +1,4 @@
-"""
-고객 상담 챗봇의 한계 - system prompt만으로는 부족한 이유
-
-01에서 FAQ를 system prompt에 직접 넣었습니다.
-FAQ가 적을 때는 괜찮지만, 많아지면 어떻게 될까요?
-
-실행: uv run python 11.cs-chatbot/02.cs_limit.py
-"""
+"""고객 상담 챗봇의 한계 - FAQ가 많아지면 system prompt만으로는 부족"""
 
 import os
 from dotenv import load_dotenv
@@ -19,13 +12,7 @@ if not api_key:
 
 client = OpenAI(api_key=api_key)
 
-# ══════════════════════════════════════════════════
-# 상황 1: FAQ 5개 → system prompt에 넣기 (잘 됨!)
-# ══════════════════════════════════════════════════
-print("=" * 50)
-print("상황 1: FAQ 5개 - system prompt에 직접 넣기")
-print("=" * 50)
-
+# 상황 1: FAQ 5개 → system prompt에 넣기 (잘 됨)
 small_faq = """
 Q: 배송은 얼마나 걸려요? → 2~3 영업일
 Q: 배송비는 얼마예요? → 3만원 이상 무료, 미만 시 3,000원
@@ -46,17 +33,8 @@ response = client.chat.completions.create(
 print(f"[질문] 배송비가 얼마예요?")
 print(f"[답변] {response.choices[0].message.content}")
 print(f"[FAQ 크기] {len(small_faq)}자")
-print("→ FAQ가 적으니까 잘 동작합니다!")
 
-# ══════════════════════════════════════════════════
-# 상황 2: FAQ 100개 → system prompt가 엄청 길어짐
-# ══════════════════════════════════════════════════
-print()
-print("=" * 50)
-print("상황 2: FAQ 100개로 늘어나면?")
-print("=" * 50)
-
-# FAQ 100개를 시뮬레이션
+# 상황 2: FAQ 100개 → system prompt가 너무 길어짐
 big_faq_lines = []
 categories = ["배송", "교환", "환불", "포인트", "회원", "결제", "상품", "이벤트", "쿠폰", "앱"]
 for i in range(100):
@@ -65,41 +43,12 @@ for i in range(100):
 
 big_faq = "\n".join(big_faq_lines)
 
-print(f"[FAQ 크기] {len(big_faq):,}자 ({len(big_faq)//4:,} 토큰 추정)")
-print()
-print("문제점:")
-print(f"  1. 매 질문마다 {len(big_faq):,}자를 보내야 함 → 비용 증가!")
-print(f"  2. 토큰 한도 초과 위험 (모델마다 한계가 있음)")
-print(f"  3. FAQ가 너무 많으면 AI가 정확한 답을 못 찾을 수 있음")
-print(f"  4. FAQ가 추가/수정될 때마다 코드를 바꿔야 함")
+# FAQ가 많아지면 생기는 문제
+print(f"\n[FAQ 100개 크기] {len(big_faq):,}자 ({len(big_faq)//4:,} 토큰 추정)")
+print(f"  - 매 질문마다 {len(big_faq):,}자를 보내야 함 (비용 증가)")
+print(f"  - 토큰 한도 초과 위험")
+print(f"  - AI가 정확한 답을 못 찾을 수 있음")
+print(f"  - FAQ 추가/수정 시 코드 변경 필요")
 
-# ══════════════════════════════════════════════════
-# 상황 3: 실제 기업은 FAQ가 수백~수천 개
-# ══════════════════════════════════════════════════
-print()
-print("=" * 50)
-print("상황 3: 실제 기업의 데이터량")
-print("=" * 50)
-print()
-print("  쇼핑몰 FAQ:     200~500개")
-print("  은행 금융상품:   1,000개+")
-print("  보험 약관:       수만 페이지")
-print("  법률 문서:       수십만 페이지")
-print()
-print("→ 이걸 전부 system prompt에 넣을 수는 없습니다!")
-
-# ══════════════════════════════════════════════════
-# 해결 방향
-# ══════════════════════════════════════════════════
-print()
-print("=" * 50)
-print("해결 방법: RAG (Retrieval-Augmented Generation)")
-print("=" * 50)
-print()
-print("  1. 문서를 미리 잘게 쪼개서 저장해둔다 (청킹)")
-print("  2. 질문이 들어오면 관련된 조각만 검색한다 (검색)")
-print("  3. 검색된 조각만 system prompt에 넣는다 (생성)")
-print()
-print("  FAQ 1,000개 중 → 질문과 관련된 3~5개만 골라서 넣기!")
-print()
-print("→ 다음 단계(12)에서 RAG를 직접 구현합니다!")
+# 해결 방법: RAG - 질문과 관련된 FAQ만 검색하여 전달
+print(f"\n[해결] RAG: 1,000개 FAQ 중 관련된 3~5개만 골라서 전달")

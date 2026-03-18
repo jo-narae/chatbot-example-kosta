@@ -1,8 +1,4 @@
-"""
-System Prompt의 힘 - 역할 부여 전 vs 후 비교
-
-같은 질문이라도 system prompt(역할 설정)에 따라 답변이 완전히 달라집니다.
-"""
+"""System Prompt - 역할 부여에 따른 답변 변화 비교"""
 
 import os
 from dotenv import load_dotenv
@@ -16,14 +12,10 @@ if not api_key:
 
 client = OpenAI(api_key=api_key)
 
-# 같은 질문을 다른 역할로 물어보기
 question = "파이썬이 뭐야?"
 
-# ── 역할 없이 질문 ──
-print("=" * 50)
-print("[역할 없음] 그냥 질문")
-print("=" * 50)
-
+# 역할 없이 질문
+print("[역할 없음]")
 response1 = client.chat.completions.create(
     model="gpt-4.1-nano",
     messages=[
@@ -33,12 +25,8 @@ response1 = client.chat.completions.create(
 )
 print(response1.choices[0].message.content)
 
-# ── 초등학교 선생님 역할 ──
-print()
-print("=" * 50)
-print("[역할: 초등학교 선생님]")
-print("=" * 50)
-
+# 초등학교 선생님 역할
+print("\n[역할: 초등학교 선생님]")
 response2 = client.chat.completions.create(
     model="gpt-4.1-nano",
     messages=[
@@ -49,12 +37,8 @@ response2 = client.chat.completions.create(
 )
 print(response2.choices[0].message.content)
 
-# ── 시니어 개발자 역할 ──
-print()
-print("=" * 50)
-print("[역할: 시니어 개발자]")
-print("=" * 50)
-
+# 시니어 개발자 역할
+print("\n[역할: 시니어 개발자]")
 response3 = client.chat.completions.create(
     model="gpt-4.1-nano",
     messages=[
@@ -64,15 +48,3 @@ response3 = client.chat.completions.create(
     temperature=0.7,
 )
 print(response3.choices[0].message.content)
-
-# ── 정리 ──
-print()
-print("=" * 50)
-print("핵심 정리")
-print("=" * 50)
-print("같은 질문 '파이썬이 뭐야?'에 대해:")
-print("- 역할 없음 → 일반적인 답변")
-print("- 초등학교 선생님 → 쉽고 재미있는 설명")
-print("- 시니어 개발자 → 기술적이고 실무적인 답변")
-print()
-print("→ system prompt로 AI의 '성격'과 '전문성'을 컨트롤할 수 있습니다!")
