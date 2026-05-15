@@ -1,8 +1,46 @@
+# 환경 변수 / 비밀
 .env
+.env.local
+*.key
+
+# 가상환경
 .venv
+venv/
+env/
+
+# 프로젝트 메모 (로컬 전용)
 CLAUDE.MD
 
-# RAG 관련 임시 폴더들
+# Python 캐시
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# uv
+.uv/
+
+# 벡터 DB / RAG 임시 산출물 (실행 시 자동 생성)
+**/chroma_db/
 faiss_index/
+**/*.sqlite3
 PDF_이미지/
 PDF_임시폴더/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Jupyter
+.ipynb_checkpoints/
+
+# 빌드 결과물
+build/
+dist/
+*.egg-info/
