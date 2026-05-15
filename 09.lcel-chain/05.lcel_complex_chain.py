@@ -46,12 +46,13 @@ print(f"\n[1단계: 설명]\n{explanation}")
 quiz = quiz_chain.invoke({"explanation": explanation})
 print(f"\n[2단계: 퀴즈]\n{quiz}")
 
-# 방법 2: RunnablePassthrough로 자동 연결
+# 방법 2: RunnablePassthrough로 체인 자동 연결
 print(f"\n[방법 2] RunnablePassthrough로 자동 연결")
 
 full_chain = (
-    {"explanation": explain_chain}
-    | quiz_chain
+    explain_chain                              # topic 받아 설명(str) 생성
+    | {"explanation": RunnablePassthrough()}   # str을 {"explanation": str}로 감싸기
+    | quiz_chain                               # 설명 받아 퀴즈(str) 생성
 )
 
 print(f"[주제] 블록체인")
@@ -69,14 +70,18 @@ summary_chain = (
     | StrOutputParser()
 )
 
+# 3단계를 한 번에 엮은 체인 (설명 → 퀴즈 → 요약)
+# 패턴: "체인 실행 → 다음 체인이 원하는 키로 감싸기" 의 반복
+full_3step = (
+    explain_chain                              # 1단계: topic 받아 설명(str) 생성
+    | {"explanation": RunnablePassthrough()}   # str을 {"explanation": str}로 감싸기
+    | quiz_chain                               # 2단계: 설명 받아 퀴즈(str) 생성
+    | {"quiz": RunnablePassthrough()}          # str을 {"quiz": str}로 감싸기
+    | summary_chain                            # 3단계: 퀴즈 받아 최종 요약 생성
+)
+
 topic = "클라우드 컴퓨팅"
 print(f"[주제] {topic}")
 
-step1 = explain_chain.invoke({"topic": topic})
-print(f"\n[1단계: 설명]\n{step1}")
-
-step2 = quiz_chain.invoke({"explanation": step1})
-print(f"\n[2단계: 퀴즈]\n{step2}")
-
-step3 = summary_chain.invoke({"quiz": step2})
-print(f"\n[3단계: 학습 요약]\n{step3}")
+result = full_3step.invoke({"topic": topic})
+print(f"\n[최종 결과: 학습 요약]\n{result}")
