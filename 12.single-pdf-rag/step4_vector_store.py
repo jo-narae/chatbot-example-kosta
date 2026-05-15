@@ -12,7 +12,7 @@ Step 4: 벡터 저장소 — ChromaDB에 저장하고 검색하기
 
 import streamlit as st
 from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from pathlib import Path
 from dotenv import load_dotenv
 

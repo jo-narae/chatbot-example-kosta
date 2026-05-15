@@ -14,7 +14,7 @@ langchain-chroma>=0.2.0
 
 # RAG / 벡터DB
 faiss-cpu>=1.12.0
-chromadb>=0.5.0
+chromadb>=0.5.20
 pymupdf>=1.26.0
 numpy>=1.26.0
 
