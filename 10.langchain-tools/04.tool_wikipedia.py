@@ -30,6 +30,8 @@ def search_wikipedia(query: str) -> str:
         return f"여러 결과가 있습니다: {', '.join(e.options[:5])}"
     except wikipedia.PageError:
         return f"'{query}'에 대한 문서를 찾을 수 없습니다."
+    except Exception as e:
+        return f"위키피디아 검색 중 오류가 발생했습니다: {type(e).__name__}"
 
 # 도구 직접 테스트
 print("[도구 테스트] 위키피디아 검색")
